@@ -14,11 +14,11 @@ spec:
   - networkName: ""
     networkType: nsx-t
   vmMetadata:
-      configMapName: cli-vm-cm
+      secretMapName: cli-vm-cm
       transport: CloudInit
 ---
 apiVersion: v1
-kind: ConfigMap
+kind: Secret
 metadata:
     name: cli-vm-cm
     namespace: namespace-1

@@ -15,4 +15,24 @@ vcsa: root
 shell
 dcli i+
 namespaces instances get --namespace namespace-1
-namespaces instances update --namespace namespace-1 --content-libraries '[{"content_library": "4cf59a4d-29ab-4ce6-9955-77b72895bf73", "writable": true}]'
+namespaces instances update --namespace namespace-1 --content-libraries '[{"content_library": "4cf59a4d-29ab-4ce6-9955-77b72895bf73", "writable": true}
+
+
+]'
+
+kubectl label --overwrite ns --all pod-security.kubernetes.io/enforce=privileged
+
+
+
+imgpkg copy -i jswolf059/developer-utilities-backend:latest --to-tar=/tmp/backend.tar
+imgpkg copy -i jswolf059/developer-utilities-frontend:latest --to-tar=/tmp/frontend.tar
+ 
+sudo vi /etc/docker/certs.d/harbor.vcf.sddc.lab/ca.crt
+ 
+docker login harbor.vcf.sddc.lab
+ 
+imgpkg copy --tar /tmp/backend.tar --to-repo=harbor.vcf.sddc.lab/3ta/backend --registry-ca-cert-path /etc/docker/certs.d/harbor.vcf.sddc.lab/ca.crt
+imgpkg copy --tar /tmp/frontend.tar --to-repo=hharbor.vcf.sddc.lab/3ta/frontend --registry-ca-cert-path /etc/docker/certs.d/harbor.vcf.sddc.lab/ca.crt
+
+
+kubectl create secret docker-registry docker-hub-creds --docker-server=harbor.vcf.sddc.lab --docker-username=admin --docker-password=Harbor12345 -n app-ns
