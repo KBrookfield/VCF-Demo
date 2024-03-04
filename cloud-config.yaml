@@ -55,4 +55,5 @@ runcmd:
   - sudo mysql < /alteruser.txt
   - mysql -u root -ppassword < /init.sql
   - sudo sed -i '0,/bind-address/s//#bind-address/' /etc/mysql/mysql.conf.d/mysqld.cnf
+  - sudo echo skip-name-resolve >> /etc/mysql/mysql.conf.d/mysqld.cnf
   - sudo systemctl restart mysql.service
