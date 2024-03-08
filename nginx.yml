@@ -74,13 +74,25 @@ data:
             a:hover {
                 text-decoration: underline;
             }
+            /* Embedded website styles */
+            .embedded-website {
+                margin-top: 40px;
+                border: none;
+                width: 800px; /* Adjust width as needed */
+                height: 600px; /* Adjust height as needed */
+            }
         </style>
     </head>
     <body>
         <div class="container">
-            <h1>Welcome to VCF Discovery!</h1>
+            <h1>Welcome to VCF Experience</h1>
             <p>This is a custom welcome page styled with VMware's colors.</p>
-            <a href="https://www.vmware.com/" target="_blank">Learn more about VCF Discovery</a>
+            <a href="https://www.vmware.com/" target="_blank">Learn more about VMware</a>
+            
+            <!-- Embedded website section -->
+            <div class="embedded-website">
+                <iframe src="https://example.com" frameborder="0"></iframe>
+            </div>
         </div>
     </body>
     </html>
