@@ -73,7 +73,7 @@ data:
         <div class="container">
             <h1>Hello and welcome to VCF Experience Day!</h1>
             <p>The VCF Experience Program is a customer-focused, expert-led VCF workshops which provides structured education and direct hands-on with live VCF labs. Currently, Discovery Day provides attendees the opportunity to explore different use cases that show the power of running VCF. Our VCF and SDN Ninja Workshops will focus in on how to operate a VCF environment for those use cases and get deeper into the how to get started operationalizing VCF to support those use cases.</p>
-            <p>You have previously deployed a MySQL database using VM Service, now let's see if you can connect to it! Follow this <a href="http:192.168.30.51:8080">link</a> to open an Adminer, a tool that will allow you to connect. Enter your MySQL IP, database, username, and password and click connect.</p>
+            <p>You have previously deployed a MySQL database using VM Service, now let's see if you can connect to it! Follow this <a href="http://10.80.0.20:8080">link</a> to open an Adminer, a tool that will allow you to connect. Enter your MySQL IP, database, username, and password and click connect.</p>
             <p>We hope you have enjoyed this experience. To learn more about the features, and to get more hands-on experience, we encourage you to continue with the Ninja workshop.</p>
         </div>
     </body>

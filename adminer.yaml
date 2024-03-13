@@ -29,5 +29,5 @@ spec:
   - protocol: TCP
     port: 8080
     targetPort: 8080
-  loadBalancerIP: 192.168.30.51  
+  loadBalancerIP: 10.80.0.20
   type: LoadBalancer
