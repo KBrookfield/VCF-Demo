@@ -1,5 +1,5 @@
 #! The FQDN for accessing Harbor admin UI and Registry service.
-hostname: harbor.vmw.lab
+hostname: harbor.vcf.sddc.lab
 
 #! The network port of the Envoy service in Contour or other Ingress Controller.
 port:
