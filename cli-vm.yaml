@@ -22,7 +22,7 @@ kind: Secret
 metadata:
     name: cli-vm-cm
     namespace: namespace-1
-data:
+stringData:
   user-data: |
     #cloud-config
     ssh_pwauth: true
