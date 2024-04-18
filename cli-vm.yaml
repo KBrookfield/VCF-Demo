@@ -14,7 +14,7 @@ spec:
   - networkName: ""
     networkType: nsx-t
   vmMetadata:
-      secretMapName: cli-vm-cm
+      secretName: cli-vm-cm
       transport: CloudInit
 ---
 apiVersion: v1
