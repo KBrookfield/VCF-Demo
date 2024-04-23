@@ -6,7 +6,7 @@ metadata:
   name: cli-vm
   namespace: namespace-1
 spec:
-  imageName: vmi-8ebb602af523a7411
+  imageName: vmi-e1f344eb9636db690
   className: best-effort-small
   powerState: poweredOn
   storageClass: k8s-storage-policy
@@ -47,7 +47,7 @@ stringData:
       - sudo echo "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /" | sudo tee /etc/apt/sources.list.d/kubernetes.list
       - sudo apt-get update && sudo apt-get install -y kubectl
       # Install kubectl-vsphere plugin
-      - curl -ks https://192.168.30.34/wcp/plugin/linux-amd64/vsphere-plugin.zip -o /tmp/vsphere-plugin.zip
+      - curl -ks https://10.80.0.2/wcp/plugin/linux-amd64/vsphere-plugin.zip -o /tmp/vsphere-plugin.zip
       - unzip -qn /tmp/vsphere-plugin.zip -d /tmp
       - sudo install /tmp/bin/kubectl-vsphere /usr/local/bin
       # Install Docker
@@ -58,7 +58,7 @@ stringData:
       - wget -O- https://carvel.dev/install.sh > install.sh
       - sudo bash install.sh
       # Install vCenter certificates
-      - wget https://vcenter-01./certs/download.zip --no-check-certificate
+      - wget https://vcenter-mgmt.vcf.sddc.lab/certs/download.zip --no-check-certificate
       - unzip download.zip
       - cp certs/lin/351d2e9c.0 ca.crt
       - sudo cp ca.crt /usr/local/share/ca-certificates
