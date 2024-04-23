@@ -53,10 +53,11 @@ persistence:
       accessMode: ReadWriteOnce
       size: 10Gi
     jobservice:
-      storageClass: "k8s-storage-policy"
-      subPath: ""
-      accessMode: ReadWriteOnce
-      size: 1Gi
+      jobLog:
+        storageClass: "k8s-storage-policy"
+        subPath: ""
+        accessMode: ReadWriteOnce
+        size: 1Gi
     database:
       storageClass: "k8s-storage-policy"
       subPath: ""
@@ -89,3 +90,13 @@ metrics:
 #! Note: IPv6 is not supported on Supervisor. Including it will cause harbor-portal to fail.
 network:
   ipFamilies: ["IPv4"]
+
+#! cache layer configurations
+#! if this feature enabled, harbor will cache the resource
+#! `project/project_metadata/repository/artifact/manifest` in the redis
+#! which help to improve the performance of high concurrent pulling manifest.
+cache:
+  #! default is not enabled.
+  enabled: false
+  #! default keep cache for one day.
+  expireHours: 24

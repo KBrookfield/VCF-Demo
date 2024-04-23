@@ -1,17 +1,17 @@
 apiVersion: data.packaging.carvel.dev/v1alpha1
 kind: Package
 metadata:
-  name: harbor.tanzu.vmware.com.2.5.3+vmware.1-tkg.1
+  name: harbor.tanzu.vmware.com.2.8.2+vmware.2-tkg.1
 spec:
   refName: harbor.tanzu.vmware.com
-  version: 2.5.3+vmware.1-tkg.1
-  releasedAt: "2021-09-28T06:05:00Z"
-  releaseNotes: harbor 2.5.3 https://github.com/goharbor/harbor/releases/tag/v2.5.3
+  version: 2.8.2+vmware.2-tkg.1
+  releasedAt: "2023-06-08T10:18:00Z"
+  releaseNotes: harbor 2.8.2 https://github.com/goharbor/harbor/releases/tag/v2.8.2
   licenses:
   - 'VMware''s End User License Agreement (Underlying OSS license: Apache License 2.0)'
   valuesSchema:
     openAPIv3:
-      title: harbor.tanzu.vmware.com.2.5.3+vmware.1-tkg.1 values schema
+      title: harbor.tanzu.vmware.com.2.8.2+vmware.2-tkg.1 values schema
       required:
       - harborAdminPassword
       - secretKey
@@ -237,31 +237,35 @@ spec:
                   type: object
                   description: PersistentVolumeClaim related configuration for jobservice component.
                   properties:
-                    existingClaim:
-                      type: string
-                      description: |-
-                        Use the existing PVC which must be created manually before bound,
-                        and specify the "subPath" if the PVC is shared with other components
-                      default: ""
-                    storageClass:
-                      type: string
-                      description: |-
-                        Specify the "storageClass" used to provision the volume. Or the default
-                        StorageClass will be used(the default).
-                        Set it to "-" to disable dynamic provisioning
-                      default: ""
-                    subPath:
-                      type: string
-                      description: The "subPath" if the PVC is shared with other components.
-                      default: ""
-                    accessMode:
-                      type: string
-                      description: Access mode of the PVC.
-                      default: ReadWriteOnce
-                    size:
-                      type: string
-                      description: Size of the PVC.
-                      default: 1Gi
+                    jobLog:
+                      type: object
+                      description: PersistentVolumeClaim for jobservice log
+                      properties:
+                        existingClaim:
+                          type: string
+                          description: |-
+                            Use the existing PVC which must be created manually before bound,
+                            and specify the "subPath" if the PVC is shared with other components
+                          default: ""
+                        storageClass:
+                          type: string
+                          description: |-
+                            Specify the "storageClass" used to provision the volume. Or the default
+                            StorageClass will be used(the default).
+                            Set it to "-" to disable dynamic provisioning
+                          default: ""
+                        subPath:
+                          type: string
+                          description: The "subPath" if the PVC is shared with other components.
+                          default: ""
+                        accessMode:
+                          type: string
+                          description: Access mode of the PVC.
+                          default: ReadWriteOnce
+                        size:
+                          type: string
+                          description: Size of the PVC.
+                          default: 1Gi
                 database:
                   type: object
                   description: PersistentVolumeClaim related configuration for database component.
@@ -367,13 +371,6 @@ spec:
                     https://github.com/docker/distribution/blob/master/docs/configuration.md#redirect
                     for the detail.
                   default: false
-                caBundleSecretName:
-                  type: string
-                  description: |-
-                    Specify the "caBundleSecretName" if the storage service uses a self-signed certificate.
-                    The secret must contain keys named "ca.crt" which will be injected into the trust store
-                    of registry's and chartmuseum's containers.
-                  default: ""
                 type:
                   type: string
                   description: |-
@@ -390,10 +387,6 @@ spec:
                       type: string
                       description: The rootdirectory in filesystem.
                       default: /storage
-                    maxthreads:
-                      type: integer
-                      description: Max threads for filesystem.
-                      default: 100
                 azure:
                   type: object
                   description: Azure storage related configuration.
@@ -730,9 +723,7 @@ spec:
             ipFamilies:
               type: array
               description: The array of network ipFamilies. Default [] is equivalent to have both ["IPv4","IPv6"]. Or you can choose one of ["IPv4"] or ["IPv6"]
-              default:
-              - IPv4
-              - IPv6
+              default: []
         trace:
           type: object
           description: The tracing configuration for Harbor.
@@ -799,32 +790,44 @@ spec:
                   type: integer
                   description: The max waiting time for the backend to process each spans batch, in seconds.
                   default: 10
+        cache:
+          type: object
+          description: The cache layer configurations for Harbor.
+          properties:
+            enabled:
+              type: boolean
+              description: Enable cache for Harbor.
+              default: false
+            expireHours:
+              type: integer
+              description: The expire hour of cache.
+              default: 24
   template:
     spec:
       fetch:
       - imgpkgBundle:
-          image: projects.registry.vmware.com/tkg/packages/standard/harbor:v2.5.3_vmware.1-tkg.1
+          image: projects.registry.vmware.com/tkg/packages/standard/harbor:v2.8.2_vmware.2-tkg.1
       template:
       - ytt:
           paths:
           - config/
           ignoreUnknownComments: true
           inline:
-              paths:
-                "config/networkpolicy.yaml": |
-                  #@ load("@ytt:data", "data")
-                  ---
-                  apiVersion: networking.k8s.io/v1
-                  kind: NetworkPolicy
-                  metadata:
-                    name: harbor-app-network-policy
-                    namespace: #@ data.values.namespace
-                  spec:
-                    podSelector:
-                      matchLabels:
-                        app: harbor
-                    ingress:
-                      - {}
+            paths:
+              "config/networkpolicy.yaml": |
+                #@ load("@ytt:data", "data")
+                ---
+                apiVersion: networking.k8s.io/v1
+                kind: NetworkPolicy
+                metadata:
+                  name: harbor-app-network-policy
+                  namespace: #@ data.values.namespace
+                spec:
+                  podSelector:
+                    matchLabels:
+                      app: harbor
+                  ingress:
+                    - {}
       - kbld:
           paths:
           - '-'
@@ -847,10 +850,9 @@ spec:
   shortDescription: OCI Registry
   providerName: VMware
   maintainers:
-  - name: He Weiwei
-  - name: Daojun Zhang
   - name: Miner Yang
+  - name: Daojun Zhang
   - name: Shengwen Yu
   categories:
   - OCI registry
-  supportDescription: Support provided by VMware for deployment on TKG 1.4+ clusters. Best-effort support for deployment on any conformant Kubernetes cluster. Contact support by opening a support request via VMware Cloud Services or my.vmware.com.
+  supportDescription: Support provided by VMware for deployment on Tanzu clusters. Best-effort support for deployment on any conformant Kubernetes cluster. Contact support by opening a support request via VMware Cloud Services or my.vmware.com.
