@@ -58,7 +58,7 @@ stringData:
       - wget -O- https://carvel.dev/install.sh > install.sh
       - sudo bash install.sh
       # Install vCenter certificates
-      - wget https://vcenter-mgmt.vcf.sddc.lab/certs/download.zip --no-check-certificate
+      - wget https://vcenter-wld.vcf.sddc.lab/certs/download.zip --no-check-certificate
       - unzip download.zip
       - cp certs/lin/351d2e9c.0 ca.crt
       - sudo cp ca.crt /usr/local/share/ca-certificates
