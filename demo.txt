@@ -17,7 +17,7 @@ Click into svc-contour-domain namespace -> Compute and wait for all Deployments 
 Click on Network tab -> Services, and note down the External IP of envoy
 Add Envoy IP into DNS for harbor.vcf.sddc.lab
 Modify harbor data values.yaml
-vSphere Client -> Workload Management -> Services -> Click on Add Service
+vSphere Client -> Workload Management -> Services -> Select correct vCenter -> Click on Add Service
 Upload harbor.yaml and click Finish
 Once successfully registered, click on Actions in Contour tile and Install on Supervisors
 Check mgmt-cluster-01 and copy in the content of harbor-data-values.yaml into YAML Service Config field. Remove any spaces from the end. 
@@ -27,7 +27,7 @@ Login using admin Harbor12345
 Go to Library project and download Registry certificate
 Create New Project called 3ta and click ok
 Open Administrator Command Prompt and cd C:\VCF-Demo-main
-kubectl vsphere login –server 10.80.0.2 –vsphere-username administrator@vsphere.local
+kubectl vsphere login --server 10.80.0.2 --vsphere-username administrator@vsphere.local
 kubectl config use-context namespace-1
 kubectl get vmi
 Replace imageName in cli-vm.yaml (if different)
@@ -45,13 +45,13 @@ sudo imgpkg copy --tar /tmp/backend.tar --to-repo=harbor.vcf.sddc.lab/3ta/backen
 sudo imgpkg copy --tar /tmp/frontend.tar --to-repo=hharbor.vcf.sddc.lab/3ta/frontend --registry-ca-cert-path /etc/docker/certs.d/harbor.vcf.sddc.lab/ca.crt
 Verify you can see frontend and backend artifacts in harbor 3ta project
 Open Administrator Command Prompt and cd C:\VCF-Demo-main
-kubectl vsphere login –server 10.80.0.2 –vsphere-username administrator@vsphere.local
+kubectl vsphere login --server 10.80.0.2 --vsphere-username administrator@vsphere.local
 kubectl config use-context namespace-1
 kubectl apply -f mysql-vm.yaml
 kubectl get service
 echo -n “mysqlserviceIP” |base64 -w 0 and add to backend.yaml
 kubectl apply -f tkg-cc-1.yaml
-kubectl vsphere login –server 10.80.0.2 –tanzu-kubernetes-cluster-name tkg-cc-1 –tanzu-kubernetes-cluster-namespace namespace-1 –vsphere-username administrator@vsphere.local
+kubectl vsphere login --server 10.80.0.2 --tanzu-kubernetes-cluster-name tkg-cc-1 --tanzu-kubernetes-cluster-namespace namespace-1 --vsphere-username administrator@vsphere.local
 kubectl get nodes
 kubectl apply -f adminer.yaml
 kubectl apply -f nginx.yaml
