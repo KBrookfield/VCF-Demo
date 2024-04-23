@@ -27,48 +27,48 @@ Login using admin Harbor12345
 Go to Library project and download Registry certificate
 Create New Project called 3ta and click ok
 Open Administrator Command Prompt and cd C:\VCF-Demo-main
-Kubectl vsphere login –server 10.80.0.2 –vsphere-username administrator@vsphere.local
-Kubectl config use-context namespace-1
-Kubectl get vmi
+kubectl vsphere login –server 10.80.0.2 –vsphere-username administrator@vsphere.local
+kubectl config use-context namespace-1
+kubectl get vmi
 Replace imageName in cli-vm.yaml (if different)
-Kubectl apply -f cli-vm.yaml
-Kubectl get vm -o wide (verify IP is assigned)
-Kubectl get service
-Ssh devops@serviceIP Devops123
+kubectl apply -f cli-vm.yaml
+kubectl get vm -o wide (verify IP is assigned)
+kubectl get service
+ssh devops@serviceIP Devops123
 Login to CLI VM and run following commands:
 imgpkg copy -i jswolf059/developer-utilities-backend:latest --to-tar=/tmp/backend.tar
 imgpkg copy -i jswolf059/developer-utilities-frontend:latest --to-tar=/tmp/frontend.tar
-Sudo mkdir -p /etc/docker/certs.d/harbor.vcf.sddc.lab/
-Sudo vi /etc/docker/certs.d/harbor.vcf.sddc.lab/ca.crt and copy in the ca.crt you downloaded from Harbor
-Sudo docker login harbor.vcf.sddc.lab
-Sudo imgpkg copy --tar /tmp/backend.tar --to-repo=harbor.vcf.sddc.lab/3ta/backend --registry-ca-cert-path /etc/docker/certs.d/harbor.vcf.sddc.lab/ca.crt
-Sudo imgpkg copy --tar /tmp/frontend.tar --to-repo=hharbor.vcf.sddc.lab/3ta/frontend --registry-ca-cert-path /etc/docker/certs.d/harbor.vcf.sddc.lab/ca.crt
+sudo mkdir -p /etc/docker/certs.d/harbor.vcf.sddc.lab/
+sudo vi /etc/docker/certs.d/harbor.vcf.sddc.lab/ca.crt and copy in the ca.crt you downloaded from Harbor
+sudo docker login harbor.vcf.sddc.lab
+sudo imgpkg copy --tar /tmp/backend.tar --to-repo=harbor.vcf.sddc.lab/3ta/backend --registry-ca-cert-path /etc/docker/certs.d/harbor.vcf.sddc.lab/ca.crt
+sudo imgpkg copy --tar /tmp/frontend.tar --to-repo=hharbor.vcf.sddc.lab/3ta/frontend --registry-ca-cert-path /etc/docker/certs.d/harbor.vcf.sddc.lab/ca.crt
 Verify you can see frontend and backend artifacts in harbor 3ta project
 Open Administrator Command Prompt and cd C:\VCF-Demo-main
-Kubectl vsphere login –server 10.80.0.2 –vsphere-username administrator@vsphere.local
-Kubectl config use-context namespace-1
-Kubectl apply -f mysql-vm.yaml
-Kubectl get service
-Echo -n “mysqlserviceIP” |base64 -w 0 and add to backend.yaml
-Kubectl apply -f tkg-cc-1.yaml
-Kubectl vsphere login –server 10.80.0.2 –tanzu-kubernetes-cluster-name tkg-cc-1 –tanzu-kubernetes-cluster-namespace namespace-1 –vsphere-username administrator@vsphere.local
-Kubectl get nodes
-Kubectl apply -f adminer.yaml
-Kubectl apply -f nginx.yaml
-Kubectl get service 
+kubectl vsphere login –server 10.80.0.2 –vsphere-username administrator@vsphere.local
+kubectl config use-context namespace-1
+kubectl apply -f mysql-vm.yaml
+kubectl get service
+echo -n “mysqlserviceIP” |base64 -w 0 and add to backend.yaml
+kubectl apply -f tkg-cc-1.yaml
+kubectl vsphere login –server 10.80.0.2 –tanzu-kubernetes-cluster-name tkg-cc-1 –tanzu-kubernetes-cluster-namespace namespace-1 –vsphere-username administrator@vsphere.local
+kubectl get nodes
+kubectl apply -f adminer.yaml
+kubectl apply -f nginx.yaml
+kubectl get service 
 Open External IP of nginx 
-Kubectl create ns app-ns
+kubectl create ns app-ns
 kubectl label --overwrite ns --all pod-security.kubernetes.io/enforce=privileged
 kubectl create secret docker-registry docker-hub-creds --docker-server=harbor.vcf.sddc.lab --docker-username=admin --docker-password=Harbor12345 -n app-ns
-Kubectl apply -f backend-app.yaml -n app-ns
-Kubectl get pod -n app-ns
-Kubectl get service -n app-ns
-Curl -X GET BackendServiceIP:5000/api/index
-Echo -n “BackendServiceIP:5000” |base64 -w 0
+kubectl apply -f backend-app.yaml -n app-ns
+kubectl get pod -n app-ns
+kubectl get service -n app-ns
+curl -X GET BackendServiceIP:5000/api/index
+echo -n “BackendServiceIP:5000” |base64 -w 0
 Paste into frontend.yaml
-Kubectl apply -f frontend-app.yaml -n app-ns
-Kubectl get pod -n app-ns
-Kubectl get service -n app-ns
+kubectl apply -f frontend-app.yaml -n app-ns
+kubectl get pod -n app-ns
+kubectl get service -n app-ns
 Browse to http://FrontentExternalIP:5000
 Click on Register and create a new user, for example demo/demo
 Log in with the new user demo/demo

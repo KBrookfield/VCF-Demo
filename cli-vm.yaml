@@ -43,8 +43,8 @@ stringData:
       # Install tools
       - sudo apt install -y ca-certificates curl wget gnupg net-tools zip unzip jq zsh bat bash-completion whois 
       # Install kubectl
-      - curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-archive-keyring.gpg
-      - sudo echo "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+      - curl curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+      - sudo echo "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /" | sudo tee /etc/apt/sources.list.d/kubernetes.list
       - sudo apt-get update && sudo apt-get install -y kubectl
       # Install kubectl-vsphere plugin
       - curl -ks https://192.168.30.34/wcp/plugin/linux-amd64/vsphere-plugin.zip -o /tmp/vsphere-plugin.zip
@@ -56,9 +56,9 @@ stringData:
       - sudo usermod -aG docker devops
       # Install Carvel tools
       - wget -O- https://carvel.dev/install.sh > install.sh
-      - sudo bash install.
+      - sudo bash install.sh
       # Install vCenter certificates
-      - wget https://vcenter-01.vmw.lab/certs/download.zip --no-check-certificate
+      - wget https://vcenter-01./certs/download.zip --no-check-certificate
       - unzip download.zip
       - cp certs/lin/351d2e9c.0 ca.crt
       - sudo cp ca.crt /usr/local/share/ca-certificates
