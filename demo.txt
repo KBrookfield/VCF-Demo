@@ -40,9 +40,9 @@ imgpkg copy -i jswolf059/developer-utilities-backend:latest --to-tar=/tmp/backen
 imgpkg copy -i jswolf059/developer-utilities-frontend:latest --to-tar=/tmp/frontend.tar
 sudo mkdir -p /etc/docker/certs.d/harbor.vcf.sddc.lab/
 sudo vi /etc/docker/certs.d/harbor.vcf.sddc.lab/ca.crt and copy in the ca.crt you downloaded from Harbor
-sudo docker login harbor.vcf.sddc.lab
+sudo docker login harbor.vcf.sddc.lab (admin Harbor12345)
 sudo imgpkg copy --tar /tmp/backend.tar --to-repo=harbor.vcf.sddc.lab/3ta/backend --registry-ca-cert-path /etc/docker/certs.d/harbor.vcf.sddc.lab/ca.crt
-sudo imgpkg copy --tar /tmp/frontend.tar --to-repo=hharbor.vcf.sddc.lab/3ta/frontend --registry-ca-cert-path /etc/docker/certs.d/harbor.vcf.sddc.lab/ca.crt
+sudo imgpkg copy --tar /tmp/frontend.tar --to-repo=harbor.vcf.sddc.lab/3ta/frontend --registry-ca-cert-path /etc/docker/certs.d/harbor.vcf.sddc.lab/ca.crt
 Verify you can see frontend and backend artifacts in harbor 3ta project
 Open Administrator Command Prompt and cd C:\VCF-Demo-main
 kubectl vsphere login --server 10.80.0.2 --vsphere-username administrator@vsphere.local
